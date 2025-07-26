@@ -1,0 +1,156 @@
+class Address:
+    def __init__(self, fn, bn, an, cn, pc, st):
+        self.flat_no = fn
+        self.building_name = bn
+        self.area_name = an
+        self.city_name = cn
+        self.pin_code = pc
+        self.state = st
+
+    def __str__(self):
+        return f"Flat No-{self.flat_no}, {self.building_name}, {self.area_name}, {self.city_name}, {self.state}-{self.pin_code}"
+
+
+class Student:
+    def __init__(self, rn, nm, mr, ad):
+        self.rn = rn
+        self.name = nm
+        self.marks = mr
+        self.add = ad
+
+    def __str__(self):
+        return f'RN: {self.rn}\nNAME: {self.name}\nMARKS: {self.marks}\nADDRESS: {self.add}'
+
+
+# Sample initial data
+a1 = Address(101, "Shiv Krupa", "Jangale Galli", "Vairag", 413402, "MH")
+a2 = Address(102, "Shiv Krupa", "Jangale Galli", "Vairag", 413402, "MH")
+a3 = Address(103, "Shiv Krupa", "Jangale Galli", "Vairag", 413402, "MH")
+
+s1 = Student(1, "Rushikesh", 90, a1)
+s2 = Student(2, "Neel", 93, a2)
+s3 = Student(3, "Pranita", 97, a3)
+
+stu_list = [s1, s2, s3]
+
+
+# Show all students
+def show():
+    if not stu_list:
+        print("No students to show.\n")
+        return
+    for i, stu in enumerate(stu_list, start=1):
+        print(f"{i}]. {stu}\n")
+
+
+# Add a new student
+def add():
+    try:
+        rn = int(input("Enter the roll no: "))
+    except ValueError:
+        print("Invalid roll number. Must be an integer.")
+        return
+
+    for stu in stu_list:
+        if stu.rn == rn:
+            print(f"Roll no {rn} is already present..")
+            return
+
+    print("Enter the following details of student:")
+    try:
+        fn = int(input("Enter the flat no: "))
+    except ValueError:
+        print("Invalid flat number. Must be an integer.")
+        return
+
+    bn = input("Enter the building name: ")
+    an = input("Enter the area name: ")
+    cn = input("Enter the city name: ")
+    pc = input("Enter the pin code: ")
+    st = input("Enter the state name: ")
+
+    a = Address(fn, bn, an, cn, pc, st)
+
+    name = input("Enter the name of student: ")
+    try:
+        marks = float(input("Enter the marks of student: "))
+    except ValueError:
+        print("Invalid marks. Must be a number.")
+        return
+
+    s = Student(rn, name, marks, a)
+    stu_list.append(s)
+    print("Student added successfully..\n")
+
+
+# Delete a student
+def delete():
+    if not stu_list:
+        print("Student list is empty.")
+        return
+
+    try:
+        roll_to_delete = int(input("Enter roll no of student to delete: "))
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+        return
+
+    for stu in stu_list:
+        if stu.rn == roll_to_delete:
+            stu_list.remove(stu)
+            print("Student deleted successfully.\n")
+            break
+    else:
+        print("\nNo such student is present.....\n")
+
+
+# Update student marks
+def update():
+    try:
+        roll_to_update = int(input("Enter roll no of student to update marks: "))
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+        return
+
+    for stu in stu_list:
+        if stu.rn == roll_to_update:
+            try:
+                new_marks = float(input("Enter the new marks of student: "))
+            except ValueError:
+                print("Invalid marks. Must be a number.")
+                return
+            stu.marks = new_marks
+            print("Student marks updated successfully..\n")
+            break
+    else:
+        print("\nNo such student is present.....\n")
+
+
+# Menu loop
+while True:
+    try:
+        ch = int(input("Choose the operation: \
+\n1. Show all students \
+\n2. Add a new student \
+\n3. Delete a student \
+\n4. Update a student \
+\n5. Exit \
+\nEnter your choice: "))
+    except ValueError:
+        print("Invalid choice. Please enter a number from 1 to 5.")
+        continue
+
+    match ch:
+        case 1:
+            show()
+        case 2:
+            add()
+        case 3:
+            delete()
+        case 4:
+            update()
+        case 5:
+            print("Exiting program. Goodbye!")
+            break
+        case _:
+            print("Invalid option. Please choose from 1 to 5.")
